@@ -10,9 +10,9 @@ This fork is extended with methods to transform/visualize/analyze/animate a proc
 
 This fork can't be used on its own as it depends on the FaceSpeechProcessing modules FacialData class, but maybe it helps someone with a similar problem as reference.
 
-The custom format is structured parquet files, with each row containing one animation pose in the `Y_point`, `X_point` (optional `Z_point`). The face tracker OpenFace 2 is producing this data in CSV format, which has been pre-transformed. 
+The custom format is structured parquet files, with each row containing one animation pose in the columns `Y_<point>`, `X_<point>` (optional `Z_<point>`). The face tracker OpenFace 2 is producing this data in CSV format, which has been pre-transformed. 
 
-The predetermined neutral pose/reference for each speaker/utterance is contained in follwoing rows: (read through `FacialData.getVertices` with default parameters)
+The predetermined neutral pose/reference for each speaker/utterance is contained in following rows: (read through `FacialData.getVertices` with default parameters)
 * `frame=-1` (for each individual utterance) 
 * `index=top_mean` (best reference found for speaker from multiple utterances)
 
