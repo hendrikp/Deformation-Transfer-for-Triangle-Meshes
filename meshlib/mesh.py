@@ -11,6 +11,8 @@ import pywavefront
 
 from .vector import Vec3f, Vector3D
 
+# PHYTHONPATH is extended by C:\git
+from FaceSpeechProcessing import facialdata as fd
 
 @dataclass
 class Mesh:
@@ -60,12 +62,37 @@ class Mesh:
         data = np.load(file)
         return cls(data["vertices"], data["faces"])
 
+    # static data
+    pvf = fd.FacialData()
+    faces = pvf.getFaces()
+    @classmethod
+    def load_parquetface(cls, file: str, **kwargs) -> "Mesh":
+        """
+        Load a reference mesh from parquet file using the facialdata class+fastparquet
+        """
+        assert os.path.isfile(file), f"Mesh file is missing: {file}"
+
+        # animation handling
+        vertices = None
+        if 'frame' in kwargs:
+            vertices = cls.pvf.getVertices(file, frame = kwargs['frame'])
+        else:
+            vertices = cls.pvf.getVertices(file)
+
+        if vertices is None:
+            return None # to end pose animation return None once..
+        else:
+            return cls( vertices, cls.faces )
+
     @classmethod
     def load(cls, file: str, **kwargs) -> "Mesh":
         if file.endswith(".obj") or file.endswith(".pose"):
             return cls.load_obj(file, **kwargs)
         elif file.endswith(".npz"):
             return cls.load_npz(file, **kwargs)
+        elif file.endswith("parquet"):
+            return cls.load_parquetface(file, **kwargs)
+
         raise ValueError("Invalid file format")
 
     def get_centroids(self) -> np.ndarray:
