@@ -5,6 +5,17 @@ A Python implementation of the paper ["Deformation Transfer for Triangle Meshes"
  ![alt text](img/example.png "Example")
 
 
+## Purpose of this fork
+This fork is extended with methods to transform/visualize/analyze/animate a processing step specific to my work in progress master thesis: `Facial animation based on speech audio using deep learning`
+
+This fork can't be used on its own as it depends on the FaceSpeechProcessing modules FacialData class, but maybe it helps someone with a similar problem as reference.
+
+The custom format is structured parquet files, with each row containing one animation pose in the `Y_point`, `X_point` (optional `Z_point`). The face tracker OpenFace 2 is producing this data in CSV format, which has been pre-transformed. 
+
+The predetermined neutral pose/reference for each speaker/utterance is contained in follwoing rows: (read through `FacialData.getVertices` with default parameters)
+* `frame=-1` (for each individual utterance) 
+* `index=top_mean` (best reference found for speaker from multiple utterances)
+
 ## TL; DR
 
 The goal is to transfer animations (deformations) from one model (source) to any other model (target) which does not share the same vertices count.
@@ -24,7 +35,6 @@ The **deformation transfer** is the **minimum solution** of the **Frobenius dist
 ## Examples
 
 There are **online interactive renders** at: https://mickare.github.io/Deformation-Transfer-for-Triangle-Meshes/
-
 
 ## How it works
 
