@@ -1,0 +1,38 @@
+source:
+  reference: E:/master/output4/lombardgrid/s2/speaker_metadata.stats_parquet
+  poses:
+    - E:/master/output4/lombardgrid/s2/s2_l_bbim3a.parquet
+    - E:/master/output4/lombardgrid/s2/s2_l_bgbp3n.parquet
+    - E:/master/output4/lombardgrid/s2/s2_l_bgbv2n.parquet
+
+target:
+  reference: E:/master/output4/lombardgrid/s20/speaker_metadata.stats_parquet
+  # Target poses just for reference
+  poses:
+
+markers: # vertex tuples - determined through facialdata.py -> faceMarkers
+  - "0:0"   # direct mapping
+  - "1:1"
+  - "2:2"
+  - "3:3"
+  - "4:4"
+  - "5:5"
+  - "6:6"
+  - "7:7"
+  - "8:8"
+  - "9:9"
+  - "10:10"
+  - "11:11"
+  - "12:12"
+  - "13:13"
+  - "14:14"
+  - "15:15"
+  - "16:16"
+  - "17:17" # 18 vertices
+
+# more dynamic mapping
+#  - "0:0"   # nose tip
+#  - "3:3"   # inner upper lip tip
+#  - "11:11" # outer lip side
+#  - "4:4"   # inner lower lip tip
+#  - "6:6"   # chin tip

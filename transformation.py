@@ -93,9 +93,11 @@ if __name__ == "__main__":
     import render.plot_result as plt_res
     import render.plot as plt
 
-    # cfg = ConfigFile.load(ConfigFile.Paths.highpoly.horse_camel)
-    cfg = ConfigFile.load(ConfigFile.Paths.lowpoly.catdog)
-    # cfg = ConfigFile.load(ConfigFile.Paths.highpoly.cat_lion)
+    #cfg = ConfigFile.load(ConfigFile.Paths.highpoly.horse_camel)
+    #cfg = ConfigFile.load(ConfigFile.Paths.highpoly.cat_lion)
+    #cfg = ConfigFile.load(ConfigFile.Paths.lowpoly.catdog)
+    cfg = ConfigFile.load(ConfigFile.Paths.lowpoly.face)
+
     corr_markers = cfg.markers  # List of vertex-tuples (source, target)
 
     identity = False
