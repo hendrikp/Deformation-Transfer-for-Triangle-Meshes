@@ -26,7 +26,7 @@ def animate_cfg(cfg: ConfigFile, identity=False):
         original_target = meshlib.Mesh.load(cfg.source.reference)
 
     mapping = get_correspondence(original_source, original_target, corr_markers)
-    transf = Transformation(original_source, original_target, mapping, smoothness=1)
+    transf = Transformation(original_source, original_target, mapping, smoothness=1, recenterFaceData=cfg.source.reference.endswith('parquet') )
     animate(transf, list(cfg.source.load_poses()))
 
 

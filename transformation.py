@@ -6,6 +6,11 @@ import meshlib
 from config import ConfigFile
 from correspondence import get_correspondence, compute_adjacent_by_edges, TransformMatrix
 
+# PHYTHONPATH is extended by C:\git
+from FaceSpeechProcessing import facialdata as fd
+
+# static functions for usage of facial data
+pvf = fd.FacialData()
 
 class Transformation:
     def __init__(
@@ -13,16 +18,19 @@ class Transformation:
             source: meshlib.Mesh,
             target: meshlib.Mesh,
             mapping: np.ndarray,
-            smoothness=1.0
+            smoothness=1.0,
+            recenterFaceData=False # we use this for the facial data
     ):
         self.source = source.to_third_dimension(copy=False)
         self.target = target.to_third_dimension(copy=False)
         self.mapping = mapping
         self.Wm = 1.0
         self.Ws = max(0.00000001, smoothness)
-
+        
         self._Am = self._compute_mapping_matrix(self.target, mapping)
         self._As, self._Bs = self._compute_missing_smoothness(self.target, mapping)
+
+        self.recenterFaceData = recenterFaceData
 
     @classmethod
     def _compute_mapping_matrix(cls, target: meshlib.Mesh, mapping: np.ndarray):
@@ -83,9 +91,15 @@ class Transformation:
         assert b.shape[1] == 3
         LU = sparse.linalg.splu((A.T @ A).tocsc())
         x = LU.solve(A.T @ b)
-
         vertices = x
-        result = meshlib.Mesh(vertices=vertices[:len(self.target.vertices)], faces=self.target.faces)
+
+        # for the parquet face we use the nose tip as origin (first vertice)
+        vertices = vertices[:len(self.target.vertices)]
+
+        if self.recenterFaceData == True:
+            avgError = pvf.recenterVertices(vertices)
+
+        result = meshlib.Mesh(vertices=vertices, faces=self.target.faces)
         return result
 
 
@@ -117,7 +131,7 @@ if __name__ == "__main__":
     # Load correspondence from cache if possible
     mapping = get_correspondence(original_source, original_target, corr_markers, plot=False)
 
-    transf = Transformation(original_source, original_target, mapping)
+    transf = Transformation(original_source, original_target, mapping, recenterFaceData=cfg.source.reference.endswith('parquet') )
     result = transf(original_pose)
 
     plt.MeshPlots.plot_correspondence(original_source, original_target, mapping).show(renderer="browser")
