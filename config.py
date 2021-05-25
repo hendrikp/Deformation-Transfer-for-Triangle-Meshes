@@ -38,7 +38,19 @@ class ModelConfig:
 
     def load_poses(self) -> Iterator[meshlib.Mesh]:
         for p in self.poses:
-            yield meshlib.Mesh.load(p)
+            # for face parquet we have the animation within the file itself
+            if p.endswith("parquet"):
+                frameIter = 1 # frames start with 1
+                while True:
+                    mesh = meshlib.Mesh.load(p, frame = frameIter)
+                    if mesh is None:
+                        break # end of pose animation
+                    else:
+                        yield mesh # output current frame
+                        frameIter = frameIter + 1 # goto next frame
+            # normal file handline (one pose per file)
+            else:
+                yield meshlib.Mesh.load(p)
 
 
 class ConfigFile:
