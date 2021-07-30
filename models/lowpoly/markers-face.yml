@@ -6,7 +6,7 @@ source:
     - E:/master/output4/lombardgrid/s2/s2_l_bgbv2n.parquet
 
 target:
-  reference: E:/master/output4/lombardgrid/s20/speaker_metadata.stats_parquet
+  reference: face/face_reference_s20.stats_parquet
   # Target poses just for reference
   poses:
 

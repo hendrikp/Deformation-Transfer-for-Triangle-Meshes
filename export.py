@@ -17,8 +17,8 @@ if __name__ == "__main__":
     import render.plot_result as plt_res
     import render.plot as plt
 
-    name = "horsecamel"
-    cfg = ConfigFile.load(ConfigFile.Paths.highpoly.horse_camel)
+    #name = "horsecamel"
+    #cfg = ConfigFile.load(ConfigFile.Paths.highpoly.horse_camel)
 
     # name = "catdog"
     # cfg = ConfigFile.load(ConfigFile.Paths.lowpoly.catdog)
@@ -28,6 +28,9 @@ if __name__ == "__main__":
 
     # name = "catvoxel"
     # cfg = ConfigFile.load(ConfigFile.Paths.lowpoly.catvoxel)
+
+    name = "face"
+    cfg = ConfigFile.load(ConfigFile.Paths.lowpoly.face)
 
     corr_markers = cfg.markers  # List of vertex-tuples (source, target)
 
