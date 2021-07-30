@@ -188,7 +188,7 @@ class TransformMatrix:
     def construct(cls, faces: np.ndarray, invVs: np.ndarray, size: int, desc="Building Transformation Matrix"):
         assert len(faces) == len(invVs)
         return sparse.vstack([
-            cls.expand(f, inv, size) for f, inv in tqdm.tqdm(zip(faces, invVs), total=len(faces), desc=desc)
+            cls.expand(f, inv, size) for f, inv in tqdm.tqdm(zip(faces, invVs), total=len(faces), desc=desc, disable=ConfigFile.disableVerboseProgress)
         ], dtype=float)
 
 
@@ -287,7 +287,7 @@ def construct_smoothness_cost(subject, invVs, adjacent) -> Tuple[sparse.spmatrix
         # Prebuild TransformMatrix for each face to reduce memory allocations
         transforms = [
             TransformMatrix.expand(f, inv, size).tocsr() for (f, inv) in
-            tqdm.tqdm(zip(subject.faces, invVs), total=len(subject.faces), desc="Building TransformMatrices")
+            tqdm.tqdm(zip(subject.faces, invVs), total=len(subject.faces), desc="Building TransformMatrices", disable=ConfigFile.disableVerboseProgress)
         ]
 
         def construct(index):
@@ -384,7 +384,7 @@ def compute_correspondence(source_org: meshlib.Mesh, target_org: meshlib.Mesh, m
         total_steps += 1
 
     # Progress bar
-    pBar = tqdm.tqdm(total=iterations * total_steps)
+    pBar = tqdm.tqdm(total=iterations * total_steps, disable=ConfigFile.disableVerboseProgress)
 
     for iteration in range(iterations):
 

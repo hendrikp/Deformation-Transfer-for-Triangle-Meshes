@@ -66,7 +66,7 @@ class Transformation:
 
         lhs, rhs = zip(*(adjacents for index, m in
                          enumerate(tqdm.tqdm(missing, total=len(missing),
-                                             desc="Fixing Missing Mapping with Smoothness"))
+                                             desc="Fixing Missing Mapping with Smoothness"), disable=ConfigFile.disableVerboseProgress)
                          for adjacents in construct(target.faces[m], inv_target_span[m], index)))
 
         As = (sparse.vstack(lhs) - sparse.vstack(rhs)).tocsc()

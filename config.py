@@ -56,6 +56,8 @@ class ModelConfig:
 class ConfigFile:
     """File that configures the both source & target models and the markers"""
 
+    disableVerboseProgress = True # option to disable progress output for batch processing
+    
     def __init__(self, file: str, cfg: Dict[str, Any]) -> None:
         assert "source" in cfg and isinstance(cfg["source"], dict)
         assert "target" in cfg and isinstance(cfg["target"], dict)
