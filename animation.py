@@ -53,7 +53,7 @@ def make_animation(transf: Transformation, poses: Sequence[meshlib.Mesh]):
         )
     )
     fig = Figure(
-        data=[BrowserVisualizer.make_mesh(results[0].transpose((0, 2, 1)), **mesh_kwargs)],
+        data=[BrowserVisualizer.make_mesh( BrowserVisualizer.defaultCamera.meshTranspose(results[0]), **mesh_kwargs)],
         layout=dict(
             updatemenus=[
                 dict(type="buttons",
@@ -71,24 +71,22 @@ def make_animation(transf: Transformation, poses: Sequence[meshlib.Mesh]):
                      ])
             ],
         ),
-        frames=[go.Frame(data=[BrowserVisualizer.make_mesh(p.transpose((0, 2, 1)), **mesh_kwargs)]) for p in results]
+        frames=[go.Frame(data=[BrowserVisualizer.make_mesh( BrowserVisualizer.defaultCamera.meshTranspose(p), **mesh_kwargs)]) for p in results]
     )
-    camera = dict(
-        up=dict(x=0, y=1, z=0)
-    )
+    camera = BrowserVisualizer.defaultCamera.camera
     scene = dict(
         aspectmode='data',
         xaxis_title='X',
         yaxis_title='Z',
         zaxis_title='Y',
         camera=camera,
-        dragmode='turntable'
+        dragmode=BrowserVisualizer.defaultCamera.dragmode
     )
     fig.update_layout(
         scene=scene,
         scene2=scene,
-        yaxis=dict(scaleanchor="x", scaleratio=1),
-        yaxis2=dict(scaleanchor="x", scaleratio=1),
+        yaxis=BrowserVisualizer.defaultCamera.yaxis,
+        yaxis2=BrowserVisualizer.defaultCamera.yaxis,
         margin=dict(l=0, r=0),
         # scene_camera=camera
     )

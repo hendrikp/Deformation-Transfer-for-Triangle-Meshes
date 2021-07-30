@@ -30,6 +30,25 @@ class BrowserVisualizer:
             z=5000
         )
 
+    # same default camera settings in all plots (correspondence, transformation and animation)
+    class defaultCamera:
+        camera = dict(
+            up=dict(x=0., y=-1.0, z=0.),
+            eye=dict(x=3, y=0, z=-3)
+            )
+
+        dragmode = 'orbit' # 'turntable' (we want to support negative y axis, so orbit required)
+
+        yaxis=dict(scaleanchor="x", scaleratio=1)
+
+        # unified method of transforming source data so it doesn't switch betwen methods, by default don't transpose for display
+        def meshTranspose(mesh: Mesh, transpose=False) -> Mesh:
+
+            if transpose:
+                return mesh.transpose((0, 2, 1))
+
+            return mesh
+
     @classmethod
     def make_mesh(cls, mesh: Mesh, offset: Optional[Vec3f] = None, heatmap=False, intensity=None, **kwargs):
         if heatmap and mesh.is_fourth_dimension():
@@ -78,12 +97,14 @@ class BrowserVisualizer:
         return self
 
     def finalize(self, camera: ODict = None) -> go.Figure:
-        camera = camera or {}
+        camera = camera or BrowserVisualizer.defaultCamera.camera.copy() # let's use a detailed default instead of {}
         camera.setdefault("up", dict(x=0, y=1, z=0))
 
         fig = go.Figure(
             data=self._data,
-            layout=go.Layout(yaxis=dict(scaleanchor="x", scaleratio=1))
+            layout=go.Layout(
+                yaxis=BrowserVisualizer.defaultCamera.yaxis,
+            )
         )
 
         fig.update_layout(
@@ -93,7 +114,7 @@ class BrowserVisualizer:
                 yaxis_title='Y',
                 zaxis_title='Z',
                 camera=camera,
-                dragmode='orbit'
+                dragmode=BrowserVisualizer.defaultCamera.dragmode
             ),
             scene_camera=camera
         )

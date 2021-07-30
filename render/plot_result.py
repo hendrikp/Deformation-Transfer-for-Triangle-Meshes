@@ -16,23 +16,21 @@ def plot(source: Mesh, target: Mesh, vertices:bool =False, markers: Optional[np.
         horizontal_spacing=0,
     )
 
-    camera = dict(
-        up=dict(x=0, y=1, z=0),
-        eye=dict(x=1.7, y=2.0, z=1.8)
-    )
+    camera = BrowserVisualizer.defaultCamera.camera
+
     scene = dict(
         aspectmode='data',
         xaxis_title='X',
         yaxis_title='Z',
         zaxis_title='Y',
         camera=camera,
-        dragmode='turntable'
+        dragmode=BrowserVisualizer.defaultCamera.dragmode
     )
     fig.update_layout(
         scene=scene,
         scene2=scene,
-        yaxis=dict(scaleanchor="x", scaleratio=1),
-        yaxis2=dict(scaleanchor="x", scaleratio=1),
+        yaxis=BrowserVisualizer.defaultCamera.yaxis,
+        yaxis2=BrowserVisualizer.defaultCamera.yaxis,
         margin=dict(l=0, r=0),
         # scene_camera=camera
     )
@@ -72,8 +70,9 @@ def plot(source: Mesh, target: Mesh, vertices:bool =False, markers: Optional[np.
 
     # colorscale_rgb = [(0.0, 'rgb(255, 0, 0)'), (0.5, 'rgb(0, 255, 0)'), (1.0, 'rgb(0, 0, 255)')]
 
-    source_rotated = source.transpose((0, 2, 1))
-    target_rotated = target.transpose((0, 2, 1))
+    # Keep same rotation instead?
+    source_rotated = BrowserVisualizer.defaultCamera.meshTranspose(source)
+    target_rotated = BrowserVisualizer.defaultCamera.meshTranspose(target)
 
     # Plot markers
     if markers is not None:
