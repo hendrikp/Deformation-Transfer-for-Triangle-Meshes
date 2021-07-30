@@ -314,6 +314,20 @@ def construct_smoothness_cost(subject, invVs, adjacent) -> Tuple[sparse.spmatrix
 
 def compute_correspondence(source_org: meshlib.Mesh, target_org: meshlib.Mesh, markers: np.ndarray, plot=False) \
         -> np.ndarray:
+
+    # check if this is a 1:1 mapping, if so exit early and perform no algorithmic correspondence calculation
+    if len(source_org.vertices) == len(target_org.vertices) and len(source_org.faces) == len(target_org.faces) and len(source_org.vertices) == len(markers):
+        
+        # vertice mapping is not enough, we need triangle/face mapping
+        #return markers.copy() 
+
+        # these are the faces itself, but we only want the indexes
+        #return np.concatenate((source_org.faces, target_org.faces), axis=1)
+
+        # return 1:1 mapped triangle face indexes
+        corr = np.concatenate((np.arange(0, len(source_org.faces)), np.arange(0, len(target_org.faces))), axis=0)
+        return corr.reshape(2, -1).T
+
     #########################################################
     # Configuration
 
