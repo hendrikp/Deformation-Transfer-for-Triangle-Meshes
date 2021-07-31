@@ -75,9 +75,9 @@ class Mesh:
         # animation handling
         vertices = None
         if 'frame' in kwargs:
-            vertices = cls.pvf.getVertices(file, frame = kwargs['frame'])
+            vertices = cls.pvf.getVertices(file, frame = kwargs['frame'], vf = kwargs.get('vf') )
         else:
-            vertices = cls.pvf.getVertices(file)
+            vertices = cls.pvf.getVertices(file, vf = kwargs.get('vf'))
 
         if vertices is None:
             return None # to end pose animation return None once..
