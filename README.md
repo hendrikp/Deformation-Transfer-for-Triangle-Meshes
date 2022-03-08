@@ -6,7 +6,7 @@ A Python implementation of the paper ["Deformation Transfer for Triangle Meshes"
 
 
 ## Purpose of this fork
-This fork is extended with methods to transform/visualize/analyze/animate a processing step specific to my work in progress master thesis: `Facial animation based on speech audio using deep learning`
+This fork is extended with methods to transform/visualize/analyze/animate a processing step specific to my master thesis: `Facial animation based on speech audio using deep learning`
 
 This fork can't be used on its own as it depends on the FaceSpeechProcessing modules FacialData class, but maybe it helps someone with a similar problem as reference.
 
